@@ -25,8 +25,8 @@ describe('TelegramService', () => {
 
     beforeEach(() => {
       fetchMock = jest.spyOn(global, 'fetch' as any);
-      jest.spyOn(service['logger'], 'log').mockImplementation(() => {});
-      jest.spyOn(service['logger'], 'error').mockImplementation(() => {});
+      jest.spyOn(service['logger'], 'log').mockImplementation(() => { });
+      jest.spyOn(service['logger'], 'error').mockImplementation(() => { });
     });
 
     afterEach(() => {
@@ -80,6 +80,34 @@ describe('TelegramService', () => {
         'Failed to send Telegram message',
         expect.any(Error)
       );
+    });
+  });
+  describe('sendMessage (integration-like, out of unit test coverage)', () => {
+    const chatId = process.env.TEST_TELEGRAM_CHAT_ID || 'dummy_chat_id';
+    const message = 'Integration test message';
+    const parseMode = 'Markdown';
+
+    let service: TelegramService;
+
+    beforeAll(() => {
+      service = new TelegramService();
+      jest.spyOn(service['logger'], 'log').mockImplementation(() => { });
+      jest.spyOn(service['logger'], 'error').mockImplementation(() => { });
+    });
+
+    it.skip('should actually send a message to Telegram (requires valid token and chatId)', async () => {
+      await expect(service.sendMessage(chatId, message, parseMode)).resolves.toBeUndefined();
+      expect(service['logger'].log).toHaveBeenCalledWith(`Sending message to chat ${chatId}`);
+    });
+
+    it.skip('should handle invalid token or chatId gracefully', async () => {
+      process.env.TELEGRAM_BOT_TOKEN = 'invalid_token';
+      const invalidService = new TelegramService();
+      jest.spyOn(invalidService['logger'], 'error').mockImplementation(() => { });
+
+      await invalidService.sendMessage('invalid_chat_id', message, parseMode);
+
+      expect(invalidService['logger'].error).toHaveBeenCalled();
     });
   });
 });
