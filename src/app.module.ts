@@ -6,11 +6,14 @@ import { WeatherModule } from './weather/weather.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksService } from './tasks.service';
 import { ConfigModule } from '@nestjs/config';
+import { SystemModule } from './system/system.module';
+import { ReportModule } from './report/report.module';
+import { NetworkModule } from './network/network.module';
 
 @Module({
   imports: [ ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
-  TelegramModule, WeatherModule],
+  TelegramModule, WeatherModule, SystemModule, ReportModule, NetworkModule],
   controllers: [AppController],
   providers: [AppService, TasksService],
 })

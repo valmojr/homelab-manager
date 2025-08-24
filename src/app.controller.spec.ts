@@ -16,7 +16,17 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+      expect(appController.getHello()).toBe('HomeLab Manager API is running');
+    });
+  });
+  describe('constructor', () => {
+    it('should be defined', () => {
+      expect(appController).toBeDefined();
+    });
+
+    it('should have appService injected', () => {
+      const controller: any = appController;
+      expect(controller.appService).toBeInstanceOf(AppService);
     });
   });
 });
