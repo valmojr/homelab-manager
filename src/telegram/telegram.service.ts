@@ -1,26 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTelegramDto } from './dto/create-telegram.dto';
-import { UpdateTelegramDto } from './dto/update-telegram.dto';
+import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class TelegramService {
-  create(createTelegramDto: CreateTelegramDto) {
-    return 'This action adds a new telegram';
-  }
+  private readonly logger = new Logger(TelegramService.name);
+  private readonly baseUrl = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}`;
 
-  findAll() {
-    return `This action returns all telegram`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} telegram`;
-  }
-
-  update(id: number, updateTelegramDto: UpdateTelegramDto) {
-    return `This action updates a #${id} telegram`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} telegram`;
+  async sendMessage(chatId: string, message: string, parseMode: 'Markdown' | 'MarkdownV2' | 'HTML' = 'Markdown') {
+    try {
+      await fetch(`${this.baseUrl}/sendMessage`, {
+        method: "POST",
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: parseMode,
+        })
+      });
+    } catch (err) {
+      this.logger.error('Failed to send Telegram message', err);
+    }
   }
 }
