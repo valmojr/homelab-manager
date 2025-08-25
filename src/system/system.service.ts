@@ -5,7 +5,7 @@ import { execSync } from 'child_process';
 
 @Injectable()
 export class SystemService {
-  getSystemInfo(): string {
+  generateReport(): string {
     const totalMem = os.totalmem();
     const freeMem = os.freemem();
     const usedMem = totalMem - freeMem;
@@ -44,13 +44,13 @@ export class SystemService {
     }
 
     return [
-      `*System*`,
+      `*Sistema*`,
       `🖥️ OS - ${body.os}`,
       `📛 HOST - ${body.hostname}`,
       `💻 CPU - ${body.cpu_usage}`,
       `🧠 RAM - ${body.memory}`,
       `⏱️ UPT - ${body.uptime}`,
-      `💾 DISK - ${body.disk_usage}`,
+      `💾 Disco - ${body.disk_usage}`,
     ].join('\n');
   }
 }

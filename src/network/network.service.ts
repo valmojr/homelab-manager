@@ -48,10 +48,10 @@ export class NetworkService {
 
   async generateReport() {
     return [
-      `*Network*`,
+      `*Rede*`,
       `🌐 Local - ${this.getLocalAddress()}`,
-      `🌍 External - ${await this.getExternalAddress()}`,
-      `🔗 Domain - ${await this.testExternalDomain()}`,
+      `🌍 Externa - ${await this.getExternalAddress()}`,
+      `🔗 DNS - ${await this.testExternalDomain()}`,
     ].join('\n');
   }
 }
