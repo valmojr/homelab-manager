@@ -9,7 +9,7 @@ export class TasksService {
     this.sendReport();
   }
 
-  @Cron('0 7 * * *')
+  @Cron('0 10 * * *')
   async sendReport() {
     const report = await this.reportService.generateReport();
     return await this.telegramService.sendMessage(process.env.TELEGRAM_CHAT_ID || "", report);
