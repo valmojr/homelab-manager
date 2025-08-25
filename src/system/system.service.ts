@@ -34,8 +34,21 @@ export class SystemService {
       }
     }
 
+    function getLinuxDistro(): string {
+      if (process.platform === 'linux') {
+        try {
+          const osRelease = fs.readFileSync('/etc/os-release', 'utf8');
+          const match = osRelease.match(/^PRETTY_NAME="(.+)"$/m);
+          if (match) {
+            return match[1];
+          }
+        } catch {}
+      }
+      return `${os.type()} ${os.release()}`;
+    }
+
     const body = {
-      os: `${os.type()} ${os.release()}`,
+      os: getLinuxDistro(),
       hostname: os.hostname(),
       cpu_usage: `${loadAvg.toFixed(2)} (${cpuUsagePercent}%)`,
       memory: `${usedMemGB} GB / ${totalMemGB} GB (${memPercent}%)`,
