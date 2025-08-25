@@ -1,4 +1,4 @@
-dockeservices:
+services:
   homelab-manager:
     build: .
     container_name: homelab-manager
