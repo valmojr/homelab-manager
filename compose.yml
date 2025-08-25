@@ -1,5 +1,4 @@
-version: "3.9"
-services:
+dockeservices:
   homelab-manager:
     build: .
     container_name: homelab-manager
