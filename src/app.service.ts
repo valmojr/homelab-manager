@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'HomeLab Manager API is running';
+  getHello() {
+    return { message: 'HomeLab Manager API is running' };
   }
 }
