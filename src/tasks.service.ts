@@ -6,7 +6,7 @@ import { ReportService } from "./report/report.service";
 @Injectable()
 export class TasksService {
   constructor(private readonly telegramService: TelegramService, private readonly reportService: ReportService) {
-    process.env.NODE_ENV !== 'production' && this.sendReport();
+    this.sendReport();
   }
 
   @Cron('0 7 * * *')
