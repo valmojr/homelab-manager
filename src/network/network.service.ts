@@ -28,21 +28,20 @@ export class NetworkService {
     }
   }
 
-  async testExternalDomain(domain = 'https://valmo.dev'): Promise<string> {
+  async testExternalDomain(external_domain?: string): Promise<string> {
+    let domain = external_domain ? external_domain : process.env.EXTERNAL_DOMAIN;
+    if (!domain) {
+      return 'No external domain configured';
+    }
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 5000);
-
-      const response = await fetch(domain, { signal: controller.signal });
-      clearTimeout(timeout);
-
+      const response = await fetch(`https://${domain}`, { method: 'HEAD' });
       if (response.ok) {
-      return `${domain} is UP`;
+        return '✅ Domain is reachable';
       } else {
-      return `${domain} is DOWN (status: ${response.status})`;
+        return `❌ Domain returned status ${response.status}`;
       }
-    } catch (error: any) {
-      return `${domain} is DOWN (${error.message})`;
+    } catch {
+      return '❌ Domain is not reachable';
     }
   }
 
