@@ -9,11 +9,12 @@ import { ConfigModule } from '@nestjs/config';
 import { SystemModule } from './system/system.module';
 import { ReportModule } from './report/report.module';
 import { NetworkModule } from './network/network.module';
+import { FinancialModule } from './financial/financial.module';
 
 @Module({
   imports: [ ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
-  TelegramModule, WeatherModule, SystemModule, ReportModule, NetworkModule],
+  TelegramModule, WeatherModule, SystemModule, ReportModule, NetworkModule, FinancialModule],
   controllers: [AppController],
   providers: [AppService, TasksService],
 })
