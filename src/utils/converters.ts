@@ -19,6 +19,6 @@ const iconToEmoji = {
   "50n": "🌫️",  // mist
 };
 
-export function getWeatherEmoji(icon) {
+export function getWeatherEmoji(icon: string | number) {
   return iconToEmoji[icon] || "❓";
 }
