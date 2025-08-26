@@ -35,21 +35,29 @@ export class SystemService {
     }
 
     function getLinuxDistro(): string {
-      if (process.platform === 'linux') {
-        try {
-          const osRelease = fs.readFileSync('/etc/os-release', 'utf8');
-          const match = osRelease.match(/^PRETTY_NAME="(.+)"$/m);
-          if (match) {
-            return match[1];
-          }
-        } catch {}
+      if (process.env.LINUX_DISTRO) {
+        return process.env.LINUX_DISTRO as string;
+      } else {
+        if (process.platform === 'linux') {
+          try {
+            const osRelease = fs.readFileSync('/etc/os-release', 'utf8');
+            const match = osRelease.match(/^PRETTY_NAME="(.+)"$/m);
+            if (match) {
+              return match[1];
+            }
+          } catch { }
+        }
+        return `${os.type()} ${os.release()}`;
       }
-      return `${os.type()} ${os.release()}`;
+    }
+
+    function getHostname(): string {
+      return process.env.HOSTNAME ? process.env.HOSTNAME : os.hostname();
     }
 
     const body = {
       os: getLinuxDistro(),
-      hostname: os.hostname(),
+      hostname: getHostname(),
       cpu_usage: `${loadAvg.toFixed(2)} (${cpuUsagePercent}%)`,
       memory: `${usedMemGB} GB / ${totalMemGB} GB (${memPercent}%)`,
       uptime: `${(os.uptime() / 3600).toFixed(2)} hours`,
