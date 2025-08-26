@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { NetworkService } from 'src/network/network.service';
-import { SystemService } from 'src/system/system.service';
-import { WeatherService } from 'src/weather/weather.service';
+import { FinancialService } from '../financial/financial.service';
+import { NetworkService } from '../network/network.service';
+import { SystemService } from '../system/system.service';
+import { WeatherService } from '../weather/weather.service';
 
 @Injectable()
 export class ReportService {
@@ -9,6 +10,7 @@ export class ReportService {
     private readonly systemService: SystemService,
     private readonly networkService: NetworkService,
     private readonly weatherService: WeatherService,
+    private readonly financialService: FinancialService,
   ) {}
 
   private async generateSystemReport() {
@@ -24,7 +26,7 @@ export class ReportService {
   }
 
   private async generateFinancialReport() {
-    return 'Financial report not implemented yet.';
+    return this.financialService.generateReport();
   }
 
   async generateReport() {
